@@ -1,6 +1,9 @@
 const fs = require('fs');
 const http = require('http'); //include http module
 const url = require('url'); //include url module
+
+const slugify = require('slugify'); 
+
 const replaceTemplate = require('./modules/replaceTemplate'); //import our own module
 
 //SERVER
@@ -13,6 +16,9 @@ const tempProduct = fs.readFileSync(`${__dirname}/templates/template-product.htm
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8'); //call data from file
 const dataObj = JSON.parse(data); //parse data and assign to the dataObj variable
+
+const slugs = dataObj.map(el => slugify(el.productName, {lower: true})); //loop all data in Json and slugify productName
+
 
 const server = http.createServer((req, res)=>{ //create a server
 
